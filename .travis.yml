@@ -19,14 +19,15 @@ env:
     - POSTGRES_USER=comic
     - POSTGRES_PORT=5432
 
+
+
 jobs:
   include:
-    - stage: test
+    - &test
+      stage: test
       if: branch = master AND type = pull_request
       language: python
-      python:
-        - "3.6"
-        - "3.7"
+      python: "3.6"
       before_install:
         - sudo service postgresql stop
         - docker run -d -p $POSTGRES_PORT:5432 -e POSTGRES_DB=$POSTGRES_DB -e POSTGRES_USER=$POSTGRES_USER -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD postgres:10.4
@@ -50,6 +51,9 @@ jobs:
 
       after_script:
         - sonar-scanner
+
+    - <<: *test
+      python: "3.7"
 
     - stage: deploy
       if: branch = master AND type = push
