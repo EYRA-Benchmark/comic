@@ -51,6 +51,7 @@ jobs:
   include:
     - stage: deploy
       if: branch = master
+      type: push
       before_install: skip
       install: skip
       before_script: skip
