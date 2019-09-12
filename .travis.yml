@@ -2,12 +2,6 @@ dist: xenial   # required for Python >= 3.7
 
 sudo: required
 
-language: python
-
-python:
-  - "3.6"
-  - "3.7"
-
 services:
   - docker
 
@@ -27,6 +21,9 @@ jobs:
   include:
     - stage: test
       if: branch = master AND type = pull_request
+      python:
+        - "3.6"
+        - "3.7"
       before_install:
         - sudo service postgresql stop
         - docker run -d -p $POSTGRES_PORT:5432 -e POSTGRES_DB=$POSTGRES_DB -e POSTGRES_USER=$POSTGRES_USER -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD postgres:10.4
