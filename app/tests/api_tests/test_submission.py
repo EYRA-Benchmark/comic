@@ -5,7 +5,7 @@ from tests.factories import UserFactory
 
 
 class SubmissionCreateTest(APITestCase):
-    def test_root(self):
+    def test_validation_errors(self):
         user = UserFactory()
         token, created = Token.objects.get_or_create(user=user)
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + str(token))
