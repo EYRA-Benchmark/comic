@@ -23,6 +23,7 @@ jobs:
   include:
     - stage: test
       if: branch = master AND type = pull_request
+      language: python
       python:
         - "3.6"
         - "3.7"
