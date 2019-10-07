@@ -34,7 +34,7 @@ itypes==1.1.0
 jinja2==2.10.3
 jmespath==0.9.4
 jsonschema==3.0.2
-kombu==4.6.4
+kombu==4.6.5
 kubernetes==10.0.1
 markupsafe==1.1.1
 oauthlib==3.1.0
