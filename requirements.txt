@@ -43,7 +43,7 @@ pyasn1-modules==0.2.7
 pyasn1==0.4.7
 pyjwt==1.7.1
 pyrsistent==0.15.4
-python-crontab==2.3.8
+python-crontab==2.3.9
 python-dateutil==2.8.0 ; python_version >= '2.7'
 python-memcached==1.59
 python3-openid==3.1.0 ; python_version >= '3.0'
