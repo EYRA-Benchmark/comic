@@ -50,7 +50,7 @@ python3-openid==3.1.0 ; python_version >= '3.0'
 pytz==2019.3
 pyyaml==5.1.2
 raven==6.10.0
-redis==3.3.8
+redis==3.3.11
 requests-oauthlib==1.2.0
 requests==2.22.0
 rsa==4.0
