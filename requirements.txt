@@ -31,7 +31,7 @@ gunicorn==19.9.0
 idna==2.8
 inflection==0.3.1
 itypes==1.1.0
-jinja2==2.10.1
+jinja2==2.10.3
 jmespath==0.9.4
 jsonschema==3.0.2
 kombu==4.6.4
