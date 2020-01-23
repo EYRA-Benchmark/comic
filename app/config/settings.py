@@ -101,12 +101,12 @@ USE_TZ = True
 STATIC_ROOT = "/static/"
 
 # Use memcached for caching
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
-        "LOCATION": "memcached:11211",
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+#         "LOCATION": "memcached:11211",
+#     }
+# }
 
 ROOT_URLCONF = "config.urls"
 
