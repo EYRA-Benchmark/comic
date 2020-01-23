@@ -4,8 +4,7 @@ import factory
 from factory.faker import faker
 from django.conf import settings
 
-from comic.eyra.models import Algorithm, Benchmark, DataFile
-
+from comic.eyra.models import Algorithm, Benchmark, DataFile, Submission, DataSet
 
 fake = faker.Faker()
 
@@ -26,6 +25,24 @@ class UserFactory(factory.DjangoModelFactory):
     is_superuser = False
 
 
+class DataFileFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = DataFile
+
+    creator = factory.SubFactory(UserFactory)
+    file = factory.PostGeneration(lambda obj, create, extracted, **kwargs: f'data_files/{obj.id}')
+
+
+class DataSetFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = DataSet
+
+    name = "Dataset..."
+    creator = factory.SubFactory(UserFactory)
+    public_test_data_file = factory.SubFactory(DataFileFactory)
+    public_ground_truth_data_file = factory.SubFactory(DataFileFactory)
+
+
 class BenchmarkFactory(factory.DjangoModelFactory):
     class Meta:
         model = Benchmark
@@ -37,6 +54,7 @@ class BenchmarkFactory(factory.DjangoModelFactory):
     data_description = 'Test bm data description'
     truth_description = 'Test bm truth description'
     metrics_description = 'Test bm metrics description'
+    data_set = factory.SubFactory(DataSetFactory)
 
 
 class AlgorithmFactory(factory.DjangoModelFactory):
@@ -50,10 +68,13 @@ class AlgorithmFactory(factory.DjangoModelFactory):
     tags = [fake.color_name() for i in range(0, random.randint(1, 4))]
 
 
-class DataFileFactory(factory.DjangoModelFactory):
+class SubmissionFactory(factory.DjangoModelFactory):
     class Meta:
-        model = DataFile
+        model = Submission
 
     creator = factory.SubFactory(UserFactory)
-    file = factory.PostGeneration(lambda obj, create, extracted, **kwargs: f'data_files/{obj.id}')
+    name = factory.Sequence(lambda n: "Test submission %03d" % n)
 
+    benchmark = factory.SubFactory(BenchmarkFactory)
+    algorithm = factory.SubFactory(AlgorithmFactory)
+    image = 'test_image'

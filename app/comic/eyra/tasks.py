@@ -59,21 +59,18 @@ def run_job(job_pk):
         raise Exception("Job failed")
 
 
-# todo: fix for new db without implementation
-def create_implementation_job_for_submission(submission: Submission):
+def create_algorithm_job_for_submission(submission: Submission):
     if submission.algorithm_job:
         raise Exception('Job already exists for submission')
 
     job_output = DataFile.objects.create(
-        name='implementation job output',
-        type=submission.benchmark.interface.output_type,
+        name='algorithm job output',
     )
     job_output.file = f"data_files/{str(job_output.pk)}"
     job_output.save()
 
     submission.algorithm_job = Job.objects.create(
         output=job_output,
-        implementation=submission.implementation,
     )
     submission.save()
 
@@ -83,7 +80,7 @@ def create_implementation_job_for_submission(submission: Submission):
 
     job_input = JobInput.objects.create(
         job=submission.algorithm_job,
-        input=submission.benchmark.interface.inputs.first(),
+        name='test_data',
         data_file=input_data_file,
     )
 
