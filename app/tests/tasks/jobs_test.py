@@ -3,7 +3,7 @@ from django.db.models import signals
 from django.test import TestCase
 
 from comic.eyra.models import Submission
-from comic.eyra.tasks import create_algorithm_job_for_submission
+from comic.eyra.tasks import create_algorithm_job_for_submission, create_evaluation_job_for_submission
 from tests.factories import SubmissionFactory
 
 
@@ -14,3 +14,7 @@ class test_create_algorithm_job(TestCase):
         self.assertIsNone(submission.algorithm_job)
         create_algorithm_job_for_submission(submission)
         self.assertIsNotNone(submission.algorithm_job)
+
+        self.assertIsNone(submission.evaluation_job)
+        create_evaluation_job_for_submission(submission)
+        self.assertIsNotNone(submission.evaluation_job)

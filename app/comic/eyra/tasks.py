@@ -89,24 +89,20 @@ def create_evaluation_job_for_submission(submission: Submission):
     if submission.evaluation_job:
         raise Exception('Job already exists for submission')
 
-    interface = submission.benchmark.evaluator.algorithm.interface
-
     job_output = DataFile.objects.create(
         name='evaluation job output',
-        type=interface.output_type,
     )
     job_output.file = f"data_files/{str(job_output.pk)}"
     job_output.save()
 
     submission.evaluation_job = Job.objects.create(
         output=job_output,
-        implementation=submission.benchmark.evaluator,
     )
     submission.save()
 
-    job_implementation_output_input = JobInput.objects.create(
+    job_algorithm_output_input = JobInput.objects.create(
         job=submission.evaluation_job,
-        input=interface.inputs.get(name='implementation_output'),
+        name='algorithm_output',
         data_file=submission.algorithm_job.output,
     )
 
@@ -116,7 +112,7 @@ def create_evaluation_job_for_submission(submission: Submission):
 
     job_ground_truth_input = JobInput.objects.create(
         job=submission.evaluation_job,
-        input=interface.inputs.get(name='ground_truth'),
+        name='ground_truth',
         data_file=ground_truth_data_file,
     )
 
@@ -124,7 +120,7 @@ def create_evaluation_job_for_submission(submission: Submission):
 @shared_task
 def run_submission(submission_pk):
     submission = Submission.objects.get(pk=submission_pk)
-    create_implementation_job_for_submission(submission)
+    create_algorithm_job_for_submission(submission)
     create_evaluation_job_for_submission(submission)
 
     try:
