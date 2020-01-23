@@ -169,3 +169,10 @@ def autoscale_gpu_node():
         AutoScalingGroupName='terraform-eks-eyra-prod01-gpu',
         DesiredCapacity=scale_to
     ))
+
+
+@shared_task
+def sleep_one_sec():
+    # used for testing basic tasks
+    time.sleep(1)
+    return 42

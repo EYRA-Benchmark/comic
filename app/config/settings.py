@@ -349,7 +349,7 @@ CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "django-db")
 CELERY_RESULT_PERSISTENT = True
 CELERY_TASK_SOFT_TIME_LIMIT = 7200
 CELERY_TASK_TIME_LIMIT = 7260
-
+CELERY_TASK_ALWAYS_EAGER = os.environ.get("CELERY_EAGER", False)
 CELERY_BEAT_SCHEDULE = {
     "autoscale_gpu_node": {
         "task": "comic.eyra_benchmarks.tasks.autoscale_gpu_node",
