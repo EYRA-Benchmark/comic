@@ -1,0 +1,127 @@
+version: '3'
+
+services:
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis:latest
+    networks:
+      - main
+    expose:
+      - 5672
+    restart: on-failure
+
+
+  postgres:
+    container_name: postgres
+    hostname: postgres
+    image: bitnami/postgresql:latest
+    networks:
+      - main
+    expose:
+      - 5432
+    restart: on-failure
+    volumes:
+      - comic-postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRESQL_DATABASE="${POSTGRESQL_DATABASE}"
+      - POSTGRESQL_USERNAME="${POSTGRESQL_USERNAME}"
+      - POSTGRESQL_PASSWORD="${POSTGRESQL_PASSWORD}"
+
+  app:
+    build: .
+    command: sh -c "python manage.py collectstatic --no-input && python manage.py migrate && gunicorn config.wsgi -b 0.0.0.0:8000"
+    container_name: app
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "8000:8000"
+    hostname: app
+    image: eyra/comic:latest
+    networks:
+      - main
+    restart: on-failure
+    env_file: .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`app.localhost`)"
+      - "traefik.http.routers.app.entrypoints=web"
+    environment:
+      - POSTGRESQL_DATABASE="${POSTGRESQL_DATABASE}"
+      - POSTGRESQL_HOST="${POSTGRESQL_HOST}"
+      - POSTGRESQL_PORT="${POSTGRESQL_PORT}"
+      - POSTGRESQL_USERNAME="${POSTGRESQL_USERNAME}"
+      - POSTGRESQL_PASSWORD="${POSTGRESQL_PASSWORD}"
+
+  celery_worker:
+    command: sh -c "celery -A config worker -l info"
+    container_name: celery_worker
+    depends_on:
+      - app
+      - postgres
+      - redis
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+    hostname: celery_worker
+    image: eyra/comic:latest
+    networks:
+      - main
+    restart: on-failure
+    env_file: .env
+    environment:
+      - POSTGRESQL_DATABASE="${POSTGRESQL_DATABASE}"
+      - POSTGRESQL_HOST="${POSTGRESQL_HOST}"
+      - POSTGRESQL_PORT="${POSTGRESQL_PORT}"
+      - POSTGRESQL_USERNAME="${POSTGRESQL_USERNAME}"
+      - POSTGRESQL_PASSWORD="${POSTGRESQL_PASSWORD}"
+
+  celery_beat:
+    command: sh -c "celery -A config beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    container_name: celery_beat
+    depends_on:
+      - app
+      - postgres
+      - redis
+    hostname: celery_beat
+    image: eyra/comic:latest
+    networks:
+      - main
+    restart: on-failure
+    env_file: .env
+    environment:
+      - POSTGRESQL_DATABASE="${POSTGRESQL_DATABASE}"
+      - POSTGRESQL_HOST="${POSTGRESQL_HOST}"
+      - POSTGRESQL_PORT="${POSTGRESQL_PORT}"
+      - POSTGRESQL_USERNAME="${POSTGRESQL_USERNAME}"
+      - POSTGRESQL_PASSWORD="${POSTGRESQL_PASSWORD}"
+
+  traefik:
+    image: "traefik:v2.1"
+    container_name: "traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+networks:
+  main:
+
+volumes:
+  comic-postgres-data:

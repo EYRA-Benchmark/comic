@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 
-# from comic.eyra_algorithms.validators import IdExistsInDockerRegistryValidator
+# from comic.eyra.validators import IdExistsInDockerRegistryValidator
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +56,7 @@ class Benchmark(UUIDModel):
     to be specified:
 
     `data_set` field:
-        Sets the :class:`~comic.eyra_data.models.DataSet` to be used in this benchmark. Determines which files are used
+        Sets the :class:`~comic.eyra.models.DataSet` to be used in this benchmark. Determines which files are used
         as test data and ground truth in the evaluation pipeline.
 
     `evaluation_image` field:
@@ -148,11 +148,11 @@ class Benchmark(UUIDModel):
 class Submission(UUIDModel):
     """
     A `Submission` is an algorithm (as a docker image) tested for a
-    :class:`Benchmark`. Whenever a `Submission` is created, two :class:`Jobs <comic.eyra_algorithms.models.Job>`
+    :class:`Benchmark`. Whenever a `Submission` is created, two :class:`Jobs <comic.eyra.models.Job>`
     are created: the algorithm_job (which runs first) and the evaluation_job (which runs second, using the output
-    of the first :class:`~comic.eyra_algorithms.models.Job`.
+    of the first :class:`~comic.eyra.models.Job`.
 
-    When the evaluation :class:`~comic.eyra_algorithms.models.Job` succeeds, the field `metrics` in its JSON output
+    When the evaluation :class:`~comic.eyra.models.Job` succeeds, the field `metrics` in its JSON output
     will be copied to this models `metrics`.
     """
     creator = models.ForeignKey(
@@ -363,7 +363,7 @@ class Job(UUIDModel):
 class JobInput(UUIDModel):
     """
     Input of a :class:`Job`, a link between the :class:`Input` of an :class:`Submission` and a specific
-    :class:`~comic.eyra_data.models.DataFile`.
+    :class:`~comic.eyra.models.DataFile`.
     """
     name = models.CharField(
         max_length=255,
@@ -458,7 +458,7 @@ class DataFile(UUIDModel):
 
 class DataSet(UUIDModel):
     """
-    DataSets are used in :class:`Benchmarks <comic.eyra_benchmarks.models.Benchmark>`.
+    DataSets are used in :class:`Benchmarks <comic.eyra.models.Benchmark>`.
     """
     creator = models.ForeignKey(
         settings.AUTH_USER_MODEL,

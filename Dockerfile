@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.8
 
 RUN apt-get update && \
     apt-get install -y \
@@ -23,9 +23,13 @@ ADD requirements.txt /app
 ADD requirements.dev.txt /app
 RUN pip install -r requirements.txt && pip install -r requirements.dev.txt
 
+ADD ./app/ /app/
+
 RUN chown 2001:2001 /static
+RUN chown 2001:2001 /app
 
 USER 2001:2001
 
-ADD --chown=2001:2001 ./app/ /app/
 RUN python manage.py collectstatic
+
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0", "config.wsgi", "--log-level debug"]

@@ -95,6 +95,8 @@ postgres_data/
 # Local env
 .env.staging
 
+.env
+
 coverage.xml
 .mypy_cache
 *.egg-info/

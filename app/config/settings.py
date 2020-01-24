@@ -40,11 +40,11 @@ APPS_DIR = os.path.join(SITE_ROOT, "comic")
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.environ.get("POSTGRES_DB", "comic"),
-        "USER": os.environ.get("POSTGRES_USER", "comic"),
-        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "secretpassword"),
-        "HOST": os.environ.get("POSTGRES_HOST", "postgres"),
-        "PORT": os.environ.get("POSTGRES_PORT", "5432"),
+        "NAME": os.environ.get("POSTGRESQL_DATABASE", "comic"),
+        "USER": os.environ.get("POSTGRESQL_USERNAME", "comic"),
+        "PASSWORD": os.environ.get("POSTGRESQL_PASSWORD", "secretpassword"),
+        "HOST": os.environ.get("POSTGRESQL_HOST", "localhost"),
+        "PORT": os.environ.get("POSTGRESQL_PORT", "5432"),
     }
 }
 
@@ -352,13 +352,13 @@ CELERY_TASK_TIME_LIMIT = 7260
 CELERY_TASK_ALWAYS_EAGER = os.environ.get("CELERY_EAGER", False)
 CELERY_BEAT_SCHEDULE = {
     "autoscale_gpu_node": {
-        "task": "comic.eyra_benchmarks.tasks.autoscale_gpu_node",
+        "task": "comic.eyra.tasks.autoscale_gpu_node",
         "schedule": timedelta(minutes=1),
     },
 }
 
 CELERY_TASK_ROUTES = {
-    "comic.eyra_benchmarks.tasks.run_submission": "submission"
+    "comic.eyra.tasks.run_submission": "submission"
 }
 
 ENABLE_DEBUG_TOOLBAR = False
