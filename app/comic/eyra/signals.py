@@ -50,15 +50,6 @@ def delete_benchmark_admin_group(
         instance.admin_group.delete()
 
 
-#todo: remove or implement
-@receiver(pre_save, sender=DataFile)
-@disable_for_loaddata
-def set_size(
-    instance: DataFile = None, *_, **__
-):
-    print("Should update size")
-
-
 @receiver(post_save, sender=User)
 @disable_for_loaddata
 def add_user_to_default_group(
