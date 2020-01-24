@@ -1,5 +1,6 @@
 boto3
 celery
+django
 django-celery-beat
 django-celery-email
 django-celery-results
@@ -8,15 +9,15 @@ django-environ
 django-extensions
 django-filter
 django-guardian
-django-storages
-django
 djangorestframework
+django-storages
 google-auth
 gunicorn
 kubernetes
 pillow
 psycopg2
 pyjwt
-social-auth-app-django
+redis
 sentry-sdk
+social-auth-app-django
 
