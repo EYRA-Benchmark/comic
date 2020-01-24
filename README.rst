@@ -17,11 +17,6 @@ Backend for the EYRA Benchmark platform.
   :target: https://sonarcloud.io/component_measures?id=EYRA-Benchmark_comic
   
   
-.. image:: https://sonarcloud.io/api/project_badges/measure?project=EYRA-Benchmark_comic&metric=alert_status
-  :target: https://sonarcloud.io/component_measures?id=EYRA-Benchmark_comic
-  
-  
-  
 .. image:: https://sonarcloud.io/api/project_badges/measure?project=EYRA-Benchmark_comic&metric=security_rating
   :target: https://sonarcloud.io/component_measures?id=EYRA-Benchmark_comic
   
