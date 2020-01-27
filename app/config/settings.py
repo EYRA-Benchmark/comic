@@ -112,14 +112,20 @@ ROOT_URLCONF = "config.urls"
 
 DEFAULT_SCHEME = os.environ.get("DEFAULT_SCHEME", "https")
 
+DOMAIN = os.environ.get(
+    "DOMAIN", "localhost"
+)
+
 SESSION_COOKIE_DOMAIN = os.environ.get(
-    "SESSION_COOKIE_DOMAIN", ".gc.localhost"
+    "SESSION_COOKIE_DOMAIN", "." + DOMAIN
 )
 
 SESSION_COOKIE_SECURE = strtobool(
     os.environ.get("SESSION_COOKIE_SECURE", "False")
 )
-CSRF_COOKIE_SECURE = strtobool(os.environ.get("CSRF_COOKIE_SECURE", "False"))
+CSRF_COOKIE_SECURE = strtobool(
+    os.environ.get("CSRF_COOKIE_SECURE", "False")
+)
 
 # Set the allowed hosts to the cookie domain
 ALLOWED_HOSTS = [SESSION_COOKIE_DOMAIN, "web"]

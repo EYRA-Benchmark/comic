@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  frontend:
+    restart: on-failure
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`www.${DOMAIN}`) || Host(`${DOMAIN}`)"
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls=true"
+      - "traefik.http.routers.backend.tls.certresolver=mytlschallenge"
+
+
+  backend:
+    command: sh -c "python manage.py migrate && gunicorn config.wsgi -b 0.0.0.0:8000"
+    restart: on-failure
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`api.${DOMAIN}`)"
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls=true"
+      - "traefik.http.routers.backend.tls.certresolver=mytlschallenge"
+
+
+  celery_worker:
+    command: sh -c "celery -A config worker -l info"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+    restart: on-failure
+
+  celery_beat:
+    command: sh -c "celery -A config beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    restart: on-failure
+
+  traefik:
+    image: "traefik:v2.1"
+    container_name: "traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
+      - "--certificatesresolvers.mytlschallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.mytlschallenge.acme.email=${TLS_EMAIL}"
+      - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
+
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt:/letsencrypt"

@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  frontend:
+    ports:
+      - "80:80"
+
+  redis:
+    ports:
+      - "5672:5672"
+
+  postgres:
+    ports:
+      - "5432:5432"
+
+  backend:
+    command: ["python", "manage.py", "runserver_plus", "0.0.0.0:8000"]
+    volumes:
+      - ./app:/app
+    ports:
+      - "8000:8000"
+
+  celery_worker:
+    command: sh -c "celery -A config worker -l debug"
+    volumes:
+      - ./app:/app
+
+  celery_beat:
+    command: sh -c "celery -A config beat -l debug --scheduler django_celery_beat.schedulers:DatabaseScheduler"

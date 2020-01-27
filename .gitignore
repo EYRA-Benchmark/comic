@@ -100,3 +100,5 @@ postgres_data/
 coverage.xml
 .mypy_cache
 *.egg-info/
+postgres-data/
+letsencrypt/

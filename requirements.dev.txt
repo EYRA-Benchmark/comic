@@ -11,4 +11,4 @@ sphinx-autobuild
 mypy
 django-stubs
 whitenoise
-
+werkzeug

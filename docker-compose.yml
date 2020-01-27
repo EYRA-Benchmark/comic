@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  frontend:
+    container_name: frontend
+    image: eyra/frontend:latest
+    restart: "no"
+    networks:
+      - main
+    environment:
+      - "EYRA_BACKEND_URL=${EYRA_BACKEND_URL}"
+
+
   redis:
     container_name: redis
     hostname: redis
@@ -9,7 +19,7 @@ services:
       - main
     expose:
       - 5672
-    restart: on-failure
+    restart: "no"
 
 
   postgres:
@@ -20,108 +30,96 @@ services:
       - main
     expose:
       - 5432
-    restart: on-failure
+    restart: "no"
     volumes:
-      - comic-postgres-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     environment:
-      - POSTGRESQL_DATABASE="${POSTGRESQL_DATABASE}"
-      - POSTGRESQL_USERNAME="${POSTGRESQL_USERNAME}"
-      - POSTGRESQL_PASSWORD="${POSTGRESQL_PASSWORD}"
+      - "POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}"
+      - "POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}"
+      - "POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}"
 
-  app:
-    build: .
-    command: sh -c "python manage.py collectstatic --no-input && python manage.py migrate && gunicorn config.wsgi -b 0.0.0.0:8000"
-    container_name: app
+  backend:
+#    command: sh -c "python manage.py collectstatic --no-input && python manage.py migrate && gunicorn config.wsgi -b 0.0.0.0:8000"
+    container_name: backend
     depends_on:
       - postgres
       - redis
-    ports:
-      - "8000:8000"
-    hostname: app
+    hostname: backend
     image: eyra/comic:latest
     networks:
       - main
-    restart: on-failure
-    env_file: .env
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`app.localhost`)"
-      - "traefik.http.routers.app.entrypoints=web"
+    restart: "no"
+
     environment:
-      - POSTGRESQL_DATABASE="${POSTGRESQL_DATABASE}"
-      - POSTGRESQL_HOST="${POSTGRESQL_HOST}"
-      - POSTGRESQL_PORT="${POSTGRESQL_PORT}"
-      - POSTGRESQL_USERNAME="${POSTGRESQL_USERNAME}"
-      - POSTGRESQL_PASSWORD="${POSTGRESQL_PASSWORD}"
+      - "POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}"
+      - "POSTGRESQL_HOST=${POSTGRESQL_HOST}"
+      - "POSTGRESQL_PORT=${POSTGRESQL_PORT}"
+      - "POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}"
+      - "POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}"
+      - "CELERY_EAGER=${CELERY_EAGER}"
+      - "DOMAIN=${DOMAIN}"
+      - "ALLOW_ALL_HOSTS=${ALLOW_ALL_HOSTS}"
+      - "CELERY_BROKER_URL=${CELERY_BROKER_URL}"
+      - "DEBUG=${DEBUG}"
+      - "DJANGO_SENTRY_DSN=${DJANGO_SENTRY_DSN}"
+      - "SESSION_COOKIE_SECURE=${SESSION_COOKIE_SECURE}"
+      - "WHITENOISE=${WHITENOISE}"
+      - "CORS_ALLOW_ALL=${CORS_ALLOW_ALL}"
 
   celery_worker:
     command: sh -c "celery -A config worker -l info"
     container_name: celery_worker
     depends_on:
-      - app
+      - backend
       - postgres
       - redis
-    deploy:
-      replicas: 2
-      restart_policy:
-        condition: on-failure
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 50M
-        reservations:
-          cpus: '0.25'
-          memory: 20M
     hostname: celery_worker
     image: eyra/comic:latest
     networks:
       - main
-    restart: on-failure
-    env_file: .env
+    restart: "no"
     environment:
-      - POSTGRESQL_DATABASE="${POSTGRESQL_DATABASE}"
-      - POSTGRESQL_HOST="${POSTGRESQL_HOST}"
-      - POSTGRESQL_PORT="${POSTGRESQL_PORT}"
-      - POSTGRESQL_USERNAME="${POSTGRESQL_USERNAME}"
-      - POSTGRESQL_PASSWORD="${POSTGRESQL_PASSWORD}"
+      - "POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}"
+      - "POSTGRESQL_HOST=${POSTGRESQL_HOST}"
+      - "POSTGRESQL_PORT=${POSTGRESQL_PORT}"
+      - "POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}"
+      - "POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}"
+      - "CELERY_EAGER=${CELERY_EAGER}"
+      - "CELERY_BROKER_URL=${CELERY_BROKER_URL}"
+      - "DJANGO_SENTRY_DSN=${DJANGO_SENTRY_DSN}"
+      - "DEBUG=${DEBUG}"
 
   celery_beat:
     command: sh -c "celery -A config beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
     container_name: celery_beat
     depends_on:
-      - app
+      - backend
       - postgres
       - redis
     hostname: celery_beat
     image: eyra/comic:latest
     networks:
       - main
-    restart: on-failure
-    env_file: .env
+    restart: "no"
     environment:
-      - POSTGRESQL_DATABASE="${POSTGRESQL_DATABASE}"
-      - POSTGRESQL_HOST="${POSTGRESQL_HOST}"
-      - POSTGRESQL_PORT="${POSTGRESQL_PORT}"
-      - POSTGRESQL_USERNAME="${POSTGRESQL_USERNAME}"
-      - POSTGRESQL_PASSWORD="${POSTGRESQL_PASSWORD}"
+      - "POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}"
+      - "POSTGRESQL_HOST=${POSTGRESQL_HOST}"
+      - "POSTGRESQL_PORT=${POSTGRESQL_PORT}"
+      - "POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}"
+      - "POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}"
+      - "CELERY_EAGER=${CELERY_EAGER}"
+      - "CELERY_BROKER_URL=${CELERY_BROKER_URL}"
+      - "DJANGO_SENTRY_DSN=${DJANGO_SENTRY_DSN}"
+      - "DEBUG=${DEBUG}"
 
-  traefik:
-    image: "traefik:v2.1"
-    container_name: "traefik"
-    command:
-      - "--log.level=DEBUG"
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-    ports:
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
 networks:
   main:
 
 volumes:
-  comic-postgres-data:
+  postgres-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/postgres-data
+      o: bind
