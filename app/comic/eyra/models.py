@@ -183,7 +183,7 @@ class Submission(UUIDModel):
     )
     image = models.CharField(
         max_length=64,
-        unique=True,
+        # unique=True,
         # validators=[IdExistsInDockerRegistryValidator],
         help_text="Docker image (e.g. eyra/frb-eval:3)",
     )
@@ -365,9 +365,14 @@ class JobInput(UUIDModel):
     Input of a :class:`Job`, a link between the :class:`Input` of an :class:`Submission` and a specific
     :class:`~comic.eyra.models.DataFile`.
     """
+    job = models.ForeignKey(
+        Job,
+        on_delete=models.CASCADE,
+        related_name='inputs',
+        help_text="Job that this input is for",
+    )
     name = models.CharField(
         max_length=255,
-        unique=True,
         null=False,
         blank=False,
         help_text="Name of algorithm",
@@ -378,12 +383,9 @@ class JobInput(UUIDModel):
         related_name='job_inputs',
         help_text="Input DataFile",
     )
-    job = models.ForeignKey(
-        Job,
-        on_delete=models.CASCADE,
-        related_name='inputs',
-        help_text="Job that this input is for",
-    )
+
+    class Meta:
+        unique_together = ('job', 'name',)
 
 
 def get_data_file_name(obj, filename=None):
