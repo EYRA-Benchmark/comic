@@ -13,11 +13,11 @@ cache:
 
 env:
   global:
-    - POSTGRES_DB=comic
-    - POSTGRES_HOST=127.0.0.1
-    - POSTGRES_PASSWORD=comic
-    - POSTGRES_USER=comic
-    - POSTGRES_PORT=5432
+    - POSTGRESQL_DATABASE=comic
+    - POSTGRESQL_HOST=127.0.0.1
+    - POSTGRESQL_PASSWORD=comic
+    - POSTGRESQL_USERNAME=comic
+    - POSTGRESQL_PORT=5432
     - AWS_ACCESS_KEY_ID=1
     - AWS_SECRET_ACCESS_KEY=2
     - CELERY_EAGER=true
@@ -31,7 +31,7 @@ jobs:
       python: "3.6"
       before_install:
         - sudo service postgresql stop
-        - docker run -d -p $POSTGRES_PORT:5432 -e POSTGRES_DB=$POSTGRES_DB -e POSTGRES_USER=$POSTGRES_USER -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD postgres:10.4
+        - docker run -d -p $POSTGRESQL_PORT:5432 -e POSTGRES_DB=$POSTGRESQL_DATABASE -e POSTGRES_USER=$POSTGRESQL_USERNAME -e POSTGRES_PASSWORD=$POSTGRESQL_PASSWORD postgres:10.4
         - sudo mkdir -p /tmp/coverage
         - sudo chmod a+w /tmp/coverage
 
@@ -42,7 +42,7 @@ jobs:
       before_script:
         - |
           RETRIES=10
-          until pg_isready --host=$POSTGRES_HOST --port=$POSTGRES_PORT --username=$POSTGRES_USER --timeout=1 || [ $RETRIES -eq 0 ]; do
+          until pg_isready --host=$POSTGRESQL_HOST --port=$POSTGRESQL_PORT --username=$POSTGRESQL_USERNAME --timeout=1 || [ $RETRIES -eq 0 ]; do
               RETRIES=$((RETRIES-1))
               sleep 1
           done
