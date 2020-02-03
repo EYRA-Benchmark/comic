@@ -24,7 +24,7 @@ django-storages==1.9
 django-timezone-field==4.0
 django==3.0.3
 djangorestframework==3.11.0
-docutils==0.15.2
+docutils==0.16
 drf-yasg==1.16.1
 google-auth==1.6.3
 gunicorn==19.9.0
