@@ -26,7 +26,7 @@ django==3.0.3
 djangorestframework==3.11.0
 docutils==0.16
 drf-yasg==1.17.0
-google-auth==1.6.3
+google-auth==1.11.0
 gunicorn==19.9.0
 idna==2.8
 inflection==0.3.1
