@@ -89,6 +89,10 @@ class Benchmark(UUIDModel):
         default="",
         help_text="Description of the metrics in markdown",
     )
+    about = models.TextField(
+        default="",
+        help_text="About this benchmark in markdown",
+    )
     name = models.CharField(
         max_length=255,
         blank=False,
