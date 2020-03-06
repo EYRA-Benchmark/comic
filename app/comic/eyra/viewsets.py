@@ -45,10 +45,6 @@ class JobViewSet(ModelViewSet):
 
 
 
-####
-
-
-
 class BenchmarkFilter(filters.FilterSet):
     has_admin = filters.NumberFilter(method='has_admin_filter')
 
@@ -76,13 +72,12 @@ class SubmissionViewSet(ModelViewSet):
     serializer_class = SubmissionSerializer
     permission_classes = (EyraPermissions,)
     # filter_backends = (filters.DjangoFilterBackend,)
-    filterset_fields = ['benchmark', 'creator', 'is_private']
+    filterset_fields = ['benchmark', 'creator', 'is_private', 'algorithm']
 
     def perform_create(self, serializer):
         # Add the logged in user as the challenge creator
         serializer.save(creator=self.request.user)
 
-####
 
 class DataFileViewSet(ModelViewSet):
     queryset = DataFile.objects.all()
