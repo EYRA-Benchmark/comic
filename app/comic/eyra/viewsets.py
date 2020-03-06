@@ -27,7 +27,6 @@ class AlgorithmFilter(filters.FilterSet):
 
 
 class AlgorithmViewSet(ModelViewSet):
-    # queryset = Algorithm.objects.exclude(output_type__name__exact='OutputMetrics')
     queryset = Algorithm.objects.all()
     serializer_class = AlgorithmSerializer
     permission_classes = (EyraPermissions,)
@@ -42,11 +41,6 @@ class JobViewSet(ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = (EyraPermissions,)
-
-
-
-####
-
 
 
 class BenchmarkFilter(filters.FilterSet):
@@ -75,14 +69,12 @@ class SubmissionViewSet(ModelViewSet):
     queryset = Submission.objects.all()
     serializer_class = SubmissionSerializer
     permission_classes = (EyraPermissions,)
-    # filter_backends = (filters.DjangoFilterBackend,)
-    filterset_fields = ['benchmark', 'creator', 'is_private']
+    filterset_fields = ['benchmark', 'creator', 'is_private', 'algorithm']
 
     def perform_create(self, serializer):
         # Add the logged in user as the challenge creator
         serializer.save(creator=self.request.user)
 
-####
 
 class DataFileViewSet(ModelViewSet):
     queryset = DataFile.objects.all()
@@ -111,9 +103,6 @@ class DataSetViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
-
-
-####
 
 
 class RegisterViewSet(mixins.CreateModelMixin, GenericViewSet):

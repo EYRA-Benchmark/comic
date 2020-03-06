@@ -5,16 +5,16 @@ Data
 
 DataType
 ~~~~~~~~
-.. autoclass:: comic.eyra_data.models.DataType
+.. autoclass:: comic.eyra.models.DataType
 
 .. _models.DataFile:
 
 DataFile
 ~~~~~~~~
-.. autoclass:: comic.eyra_data.models.DataFile
+.. autoclass:: comic.eyra.models.DataFile
 
 .. _models.DataSet:
 
 DataSet
 ~~~~~~~~
-.. autoclass:: comic.eyra_data.models.DataSet
+.. autoclass:: comic.eyra.models.DataSet
