@@ -16,7 +16,8 @@ from comic.eyra.serializers import AlgorithmSerializer, JobSerializer, Benchmark
 
 
 class AlgorithmFilter(filters.FilterSet):
-    has_admin = filters.NumberFilter(method='has_admin_filter')
+    has_admin = filters.NumberFilter(method='has_admin_filter', label="Has admin")
+    benchmark = filters.UUIDFilter(method='benchmark_filter', label="Benchmark")
 
     class Meta:
         model = Algorithm
@@ -24,6 +25,9 @@ class AlgorithmFilter(filters.FilterSet):
 
     def has_admin_filter(self, queryset, name, value):
         return queryset.filter(admin_group__user__id__contains=value)
+
+    def benchmark_filter(self, queryset, name, value):
+        return queryset.filter(submission__benchmark__id=value)
 
 
 class AlgorithmViewSet(ModelViewSet):

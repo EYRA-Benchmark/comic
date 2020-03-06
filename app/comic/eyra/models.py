@@ -202,7 +202,7 @@ class Submission(UUIDModel):
         on_delete=models.CASCADE,
         blank=False,
         null=False,
-        related_name='algorithm',
+        related_name='submission',
         help_text='Implemented algorithm',
     )
     version = models.CharField(
