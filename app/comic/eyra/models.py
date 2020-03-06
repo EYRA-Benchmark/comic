@@ -148,6 +148,10 @@ class Benchmark(UUIDModel):
         verbose_name = "benchmark"
         verbose_name_plural = "benchmarks"
 
+        permissions = (
+            ('create_submission', 'Create submission'),
+        )
+
 
 class Submission(UUIDModel):
     """
