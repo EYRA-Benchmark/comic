@@ -25,6 +25,13 @@ Backend for the EYRA Benchmark platform.
   :target: https://sonarcloud.io/component_measures?id=EYRA-Benchmark_comic
 
 
+.. image:: https://pyup.io/repos/github/EYRA-Benchmark/comic/shield.svg
+  :target: https://pyup.io/repos/github/EYRA-Benchmark/comic/
+  :alt: Updates
+  
+  
+
 `Read the docs <https://eyra.readthedocs.io>`_.
 
 Forked from `grand-challenge.org <https://github.com/comic/grand-challenge.org/>`_.
+
