@@ -49,6 +49,7 @@ class BenchmarkFactory(factory.DjangoModelFactory):
 
     creator = factory.SubFactory(UserFactory)
     name = 'Test-benchmark'
+    about = 'Bladiebbla'
     short_description = 'Test benchmark short description'
     description = 'Test benchmark description'
     data_description = 'Test bm data description'

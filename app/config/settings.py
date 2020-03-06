@@ -117,7 +117,7 @@ DOMAIN = os.environ.get(
 )
 
 SESSION_COOKIE_DOMAIN = os.environ.get(
-    "SESSION_COOKIE_DOMAIN", "." + DOMAIN
+    "SESSION_COOKIE_DOMAIN", DOMAIN
 )
 
 SESSION_COOKIE_SECURE = strtobool(

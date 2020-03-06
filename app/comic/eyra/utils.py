@@ -27,14 +27,14 @@ def set_algorithm_default_permissions(
 def set_benchmark_admin_group(
     benchmark: Benchmark
 ):
-    admin_group = Group.objects.create(name=f"{benchmark.name} admin")
-    admin_group.save()
-    benchmark.admin_group = admin_group
-    try:
-        benchmark.creator.groups.add(admin_group)
-    except AttributeError:
-        # No creator set
-        pass
+    admin_group, created = Group.objects.get_or_create(name=f"{benchmark.name} admin")
+    if created:
+        benchmark.admin_group = admin_group
+        try:
+            benchmark.creator.groups.add(admin_group)
+        except AttributeError:
+            # No creator set
+            pass
 
 
 def set_benchmark_default_permissions(
