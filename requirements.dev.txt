@@ -8,7 +8,7 @@ recommonmark==0.6.0
 sphinx==2.4.4
 sphinx_rtd_theme==0.4.3
 sphinx-autobuild==0.7.1
-mypy
+mypy==0.761
 django-stubs
 whitenoise
 werkzeug
