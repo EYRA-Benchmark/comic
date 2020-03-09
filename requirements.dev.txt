@@ -1,6 +1,6 @@
 codecov==2.0.16
 factory-boy==2.12.0
-ipython
+ipython==7.13.0
 pytest
 pytest-cov
 pytest-django
