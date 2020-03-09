@@ -10,5 +10,5 @@ sphinx_rtd_theme==0.4.3
 sphinx-autobuild==0.7.1
 mypy==0.761
 django-stubs==1.4.0
-whitenoise
+whitenoise==5.0.1
 werkzeug
