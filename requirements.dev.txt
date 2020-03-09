@@ -4,7 +4,7 @@ ipython==7.13.0
 pytest==5.3.5
 pytest-cov==2.8.1
 pytest-django==3.8.0
-recommonmark
+recommonmark==0.6.0
 sphinx
 sphinx_rtd_theme
 sphinx-autobuild
