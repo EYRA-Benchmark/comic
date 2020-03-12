@@ -105,12 +105,12 @@ echo "Done"
         )
 
         # Define the main algorithm running container
-        implementation = self.job.implementation
+        submission = self.job.submission
         main_container = client.V1Container(
             name="main",
-            image=implementation.image,
-            command=['sh'] if implementation.command else None,
-            args=['-c', implementation.command] if implementation.command else None,
+            image=submission.image,
+            command=['sh'] if submission.command else None,
+            args=['-c', submission.command] if submission.command else None,
             resources=client.V1ResourceRequirements(
                 requests = {
                     "nvidia.com/gpu": "1"
@@ -158,7 +158,6 @@ echo "Done"
         )
 
         client.BatchV1Api().create_namespaced_job(self.namespace, job)
-
 
     def __enter__(self):
         return self

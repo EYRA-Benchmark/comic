@@ -71,6 +71,7 @@ def create_algorithm_job_for_submission(submission: Submission):
 
     submission.algorithm_job = Job.objects.create(
         output=job_output,
+        submission=submission,
     )
     submission.save()
 
@@ -97,6 +98,7 @@ def create_evaluation_job_for_submission(submission: Submission):
 
     submission.evaluation_job = Job.objects.create(
         output=job_output,
+        submission=submission,
     )
     submission.save()
 
@@ -117,6 +119,7 @@ def create_evaluation_job_for_submission(submission: Submission):
     )
 
 
+
 @shared_task
 def run_submission(submission_pk):
     submission = Submission.objects.get(pk=submission_pk)
@@ -124,7 +127,7 @@ def run_submission(submission_pk):
     create_evaluation_job_for_submission(submission)
 
     try:
-        run_job(submission.implementation_job.pk)
+        run_job(submission.algorithm_job.pk)
     except Exception as e:
         submission.evaluation_job.status = Job.FAILURE
         submission.evaluation_job.log = 'Cannot evaluate, since the implementation job failed.'

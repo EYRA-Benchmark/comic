@@ -4,7 +4,7 @@ import factory
 from factory.faker import faker
 from django.conf import settings
 
-from comic.eyra.models import Algorithm, Benchmark, DataFile, Submission, DataSet
+from comic.eyra.models import Algorithm, Benchmark, DataFile, Submission, DataSet, Job
 
 fake = faker.Faker()
 
@@ -79,3 +79,10 @@ class SubmissionFactory(factory.DjangoModelFactory):
     benchmark = factory.SubFactory(BenchmarkFactory)
     algorithm = factory.SubFactory(AlgorithmFactory)
     image = 'test_image'
+
+#
+# class JobFactory(factory.DjangoModelFactory):
+#     class Meta:
+#         model = Job
+#
+#     submission = factory.SubFactory(SubmissionFactory)
