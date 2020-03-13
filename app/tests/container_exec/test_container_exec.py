@@ -6,8 +6,8 @@ from django.db.models.signals import post_save
 from django.test.testcases import TestCase
 from factory.django import mute_signals
 
-from comic.eyra.models import Submission, Job
-from comic.eyra.tasks import create_algorithm_job_for_submission, create_evaluation_job_for_submission, run_submission
+from comic.eyra.models import Submission
+from comic.eyra.tasks import run_submission
 from tests.factories import SubmissionFactory
 
 
@@ -40,15 +40,21 @@ class DummyPodList:
         DummyPod('output')
     ]
 
+
+class DummyPodStatus:
+    succeeded = True
+    failed = False
+
 @patch('comic.container_exec.backends.k8s.load_incluster_config', zilch)
 @patch('comic.container_exec.backends.k8s.load_kube_config', zilch)
 @patch('comic.container_exec.backends.k8s.K8sJob.create_io_pvc', zilch)
 @patch('comic.container_exec.backends.k8s.client.BatchV1Api.create_namespaced_job', zilch)
-@patch('comic.container_exec.backends.k8s.client.BatchV1Api.read_namespaced_job_status', lambda *args, **kwargs: dotdict({"status": 0}))
+@patch('comic.container_exec.backends.k8s.client.BatchV1Api.read_namespaced_job_status', lambda *args, **kwargs: dotdict({"status": DummyPodStatus()}))
 @patch('comic.container_exec.backends.k8s.client.CoreV1Api.list_namespaced_pod', lambda *args, **kwargs: DummyPodList())
+@patch('comic.container_exec.backends.k8s.client.CoreV1Api.delete_namespaced_pod', zilch)
+@patch('comic.container_exec.backends.k8s.client.BatchV1Api.delete_namespaced_job', zilch)
+@patch('comic.container_exec.backends.k8s.client.CoreV1Api.delete_namespaced_persistent_volume_claim', zilch)
 @patch('comic.container_exec.backends.k8s.client.CoreV1Api.read_namespaced_pod_log', lambda *args, **kwargs: 'DummyLog')
-# @patch('kubernetes.config.load_incluster_config', zilch)
-# @patch('kubernetes.config.load_kube_config', zilch)
 class ContainerExecTest(TestCase):
     def test_create_job(self):
         submission: Submission = mute_signals(post_save)(SubmissionFactory)()
@@ -56,8 +62,8 @@ class ContainerExecTest(TestCase):
         self.assertIsNone(submission.evaluation_job)
 
         run_submission(submission.pk)
-
-        self.assertIsNone(submission.algorithm_job)
+        submission.refresh_from_db()
+        self.assertIsNotNone(submission.algorithm_job)
 
         print(submission.algorithm_job)
 
