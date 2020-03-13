@@ -30,7 +30,6 @@ Backend for the EYRA Benchmark platform.
   :alt: Updates
   
   
-
 `Read the docs <https://eyra.readthedocs.io>`_.
 
 Forked from `grand-challenge.org <https://github.com/comic/grand-challenge.org/>`_.
