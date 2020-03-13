@@ -7,14 +7,14 @@ from comic.eyra.models import Benchmark, Algorithm
 def set_algorithm_admin_group(
     algorithm: Algorithm
 ):
-    admin_group = Group.objects.create(name=f"{algorithm.name} admin")
-    admin_group.save()
-    algorithm.admin_group = admin_group
-    try:
-        algorithm.creator.groups.add(admin_group)
-    except AttributeError:
-        # No creator set
-        pass
+    admin_group, created = Group.objects.get_or_create(name=f"{algorithm.name} admin")
+    if created:
+        algorithm.admin_group = admin_group
+        try:
+            algorithm.creator.groups.add(admin_group)
+        except AttributeError:
+            # No creator set
+            pass
 
 
 def set_algorithm_default_permissions(
