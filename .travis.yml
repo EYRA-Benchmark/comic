@@ -28,7 +28,7 @@ jobs:
       stage: test
       if: branch = master
       language: python
-      python: "3.6"
+      python: "3.7"
       before_install:
         - sudo service postgresql stop
         - docker run -d -p $POSTGRESQL_PORT:5432 -e POSTGRES_DB=$POSTGRESQL_DATABASE -e POSTGRES_USER=$POSTGRESQL_USERNAME -e POSTGRES_PASSWORD=$POSTGRESQL_PASSWORD postgres:10.4
@@ -51,7 +51,7 @@ jobs:
         - pytest --cov=app/comic --cov-report=xml app
 
     - <<: *test
-      python: "3.7"
+      python: "3.8"
       after_script:
         - sonar-scanner
 

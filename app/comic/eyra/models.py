@@ -148,6 +148,10 @@ class Benchmark(UUIDModel):
         verbose_name = "benchmark"
         verbose_name_plural = "benchmarks"
 
+        permissions = (
+            ('create_submission', 'Create submission'),
+        )
+
 
 class Submission(UUIDModel):
     """
@@ -202,7 +206,7 @@ class Submission(UUIDModel):
         on_delete=models.CASCADE,
         blank=False,
         null=False,
-        related_name='algorithm',
+        related_name='submission',
         help_text='Implemented algorithm',
     )
     version = models.CharField(

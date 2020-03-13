@@ -356,6 +356,8 @@ CELERY_RESULT_PERSISTENT = True
 CELERY_TASK_SOFT_TIME_LIMIT = 7200
 CELERY_TASK_TIME_LIMIT = 7260
 CELERY_TASK_ALWAYS_EAGER = os.environ.get("CELERY_EAGER", False)
+if CELERY_TASK_ALWAYS_EAGER:
+    logging.warning("Using CELERY_EAGER")
 CELERY_BEAT_SCHEDULE = {
     "autoscale_gpu_node": {
         "task": "comic.eyra.tasks.autoscale_gpu_node",
