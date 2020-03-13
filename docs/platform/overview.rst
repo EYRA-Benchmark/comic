@@ -4,6 +4,11 @@ Overview of entities and relations
 .. image:: ../../erd.png
    :target: ../_images/erd.png
 
+.. image:: ../_static/eyra_container_exec.jpg
+
+.. image:: ../_static/eyra_services.jpg
+
+.. image:: ../_static/permissions_erd.png
 
 The platform contains :ref:`models.DataFile`, which represent both data (the bits themselves) and metadata. Each
 :ref:`models.DataFile` is of a specific :ref:`models.DataType`. A :ref:`models.DataSet` is a collection of
