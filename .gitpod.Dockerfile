@@ -2,7 +2,8 @@ FROM gitpod/workspace-postgres
 
 COPY requirements.txt requirements.dev.txt /
 
-RUN mv ~/.pyenv/shims ~/.pyenv/shims_disable &&\
+RUN rm ~/.bashrc.d/60-python &&\
+    echo PYTHONUSERBASE= >> ~/.bashrc &&\
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh &&\
     bash ./Miniconda3-latest-Linux-x86_64.sh -b -p &&\
     rm Miniconda3-latest-Linux-x86_64.sh &&\
