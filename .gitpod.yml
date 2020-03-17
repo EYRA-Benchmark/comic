@@ -1,5 +1,12 @@
 tasks:
-    - init: "echo init"
+    - init: |
+            conda activate comic &&
+            createuser --superuser comic &&
+            createdb -O comic comic &&
+            cd app &&\
+            python manage.py migrate &&\ 
+            python manage.py init_db_data
+
 image:
     file: .gitpod.Dockerfile
 
