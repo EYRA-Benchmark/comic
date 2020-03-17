@@ -1,5 +1,6 @@
 tasks:
     - init: |
+            cp .env.dev .env &&
             conda activate comic &&
             createuser --superuser comic &&
             createdb -O comic comic &&
