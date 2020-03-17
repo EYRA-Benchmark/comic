@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/tom/miniconda3/envs/comic/bin/python",
+    "python.pythonPath": "~/miniconda3/envs/comic/bin/python",
     "python.testing.pytestArgs": [
         "app"
     ],

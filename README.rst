@@ -39,9 +39,9 @@ Forked from `grand-challenge.org <https://github.com/comic/grand-challenge.org/>
 - Use miniconda3 https://docs.conda.io/en/latest/miniconda.html
 - Create a virtual environment: ``conda create -n comic python=3``
 - Activate environment: ``conda activate comic``
-- Install dependencies: ``pip3 install -r requirements.txt && pip3 install -r requirements.dev.txt``
-- Install our repo in edit mode: ``pip3 install -e app``
-- Install docker-compose: ``pip3 install docker-compose``
+- Install dependencies: ``pip install -r requirements.txt && pip install -r requirements.dev.txt``
+- Install our repo in edit mode: ``pip install -e app``
+- Install docker-compose: ``pip install docker-compose``
 - Setup ``.env``: ``cp .env.dev .env``
 - Start containers: ``docker-compose up postgres redis``
 - Run the database migrations: ``cd app; python manage.py migrate; python manage.py init_db_data``
