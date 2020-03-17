@@ -1,5 +1,6 @@
 tasks:
     - init: |
+            mv ~/.pyenv/shims ~/.pyenv/shims_disable &&
             cp .env.dev .env &&
             conda activate comic &&
             createuser --superuser comic &&
