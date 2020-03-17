@@ -20,8 +20,11 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
 
+from pathlib import Path
 
 env = environ.Env()
+env_file_path = Path(os.path.dirname(os.path.realpath(__file__))) / '../../.env'
+env.read_env(str(env_file_path))
 
 def strtobool(val) -> bool:
     """ Returns disutils.util.strtobool as a boolean """

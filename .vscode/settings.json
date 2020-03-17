@@ -1,0 +1,9 @@
+{
+    "python.pythonPath": "/home/tom/miniconda3/envs/comic/bin/python",
+    "python.testing.pytestArgs": [
+        "app"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true
+}
