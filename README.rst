@@ -43,7 +43,7 @@ Forked from `grand-challenge.org <https://github.com/comic/grand-challenge.org/>
 - Install our repo in edit mode: ``pip3 install -e app``
 - Install docker-compose: ``pip3 install docker-compose``
 - Setup ``.env``: ``cp .env.dev .env``
-- Start containers: ``docker-compose --env-file up postgres redis``
+- Start containers: ``docker-compose up postgres redis``
 - Run the database migrations: ``cd app; python manage.py migrate; python manage.py init_db_data``
 
 - Install VSCode Python extension
