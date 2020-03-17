@@ -3,7 +3,7 @@ FROM ubuntu:bionic
 #gitpod user will have be gitpod (uid 33333)
 
 RUN apt-get update && \
-    apt-get install postgresql-10 && \
+    apt-get install -y postgresql-10 && \
     useradd -u 33333 gitpod &&\
     chown gitpod -R /var/lib/postgresql && \
     chown gitpod -R /var/run/postgresql && \
