@@ -1,4 +1,4 @@
-FROM python:3
+FROM ubuntu:bionic
 
 #gitpod user will have be gitpod (uid 33333)
 
