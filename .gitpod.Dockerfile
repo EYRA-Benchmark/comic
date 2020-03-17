@@ -12,5 +12,4 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh &
     conda activate comic &&\
     pip install -r /requirements.txt &&\ 
     pip install -r /requirements.dev.txt &&\
-    pip install -e app &&\
     cp .env.dev .env
