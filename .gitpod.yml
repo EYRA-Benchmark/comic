@@ -5,9 +5,9 @@ tasks:
             conda activate comic &&
             createuser --superuser comic &&
             createdb -O comic comic &&
-            pip install -e app &&\
-            cd app &&\
-            python manage.py migrate &&\ 
+            pip install -e app &&
+            cd app &&
+            python manage.py migrate &&
             python manage.py init_db_data
 
 image:
