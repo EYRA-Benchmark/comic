@@ -38,7 +38,7 @@ Forked from `grand-challenge.org <https://github.com/comic/grand-challenge.org/>
 
 - Use miniconda3 https://docs.conda.io/en/latest/miniconda.html
 - Create a virtual environment: ``conda create -n comic python=3``
-- Activate environment: ``conda acivate comic``
+- Activate environment: ``conda activate comic``
 - Install dependencies: ``pip3 install -r requirements.txt && pip3 install -r requirements.dev.txt``
 - Install docker-compose: ``pip3 install docker-compose``
 - Setup ``.env``: ``cp .env.dev .env``
