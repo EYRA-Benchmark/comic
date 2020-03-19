@@ -69,6 +69,12 @@ class Benchmark(UUIDModel):
         on_delete=models.SET_NULL,
         help_text="Creator of the benchmark",
     )
+    name = models.CharField(
+        max_length=255,
+        blank=False,
+        help_text="The name of the benchmark",
+        unique=True,
+    )
     short_description = models.TextField(
         default="",
         help_text="Short description in markdown",
@@ -76,6 +82,10 @@ class Benchmark(UUIDModel):
     description = models.TextField(
         default="",
         help_text="Description in markdown",
+    )
+    about = models.TextField(
+        default="",
+        help_text="About this benchmark in markdown",
     )
     data_description = models.TextField(
         default="",
@@ -89,15 +99,9 @@ class Benchmark(UUIDModel):
         default="",
         help_text="Description of the metrics in markdown",
     )
-    about = models.TextField(
+    submission_instruction = models.TextField(
         default="",
-        help_text="About this benchmark in markdown",
-    )
-    name = models.CharField(
-        max_length=255,
-        blank=False,
-        help_text="The name of the benchmark",
-        unique=True,
+        help_text="submission instruction for user in markdown",
     )
     banner_image = models.ImageField(
         blank=True,
@@ -173,8 +177,10 @@ class Submission(UUIDModel):
     modified = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=255, unique=True, null=True, blank=True)
     benchmark = models.ForeignKey(Benchmark, on_delete=models.CASCADE)
-    algorithm_job = models.ForeignKey('Job', on_delete=models.CASCADE, null=True, blank=True, related_name='+')
-    evaluation_job = models.ForeignKey('Job', on_delete=models.CASCADE, null=True, blank=True, related_name='+')
+    algorithm_job = models.ForeignKey(
+        'Job', on_delete=models.CASCADE, null=True, blank=True, related_name='+')
+    evaluation_job = models.ForeignKey(
+        'Job', on_delete=models.CASCADE, null=True, blank=True, related_name='+')
     metrics = JSONField(null=True, blank=True)
     is_private = models.BooleanField(
         default=False,
@@ -226,14 +232,18 @@ class Submission(UUIDModel):
     def clean(self):
         if self.is_private:
             if not self.benchmark.data_set.private_test_data_file:
-                raise ValidationError('Cannot create private submission, because the Benchmarks dataset has no private_test_data_file')
+                raise ValidationError(
+                    'Cannot create private submission, because the Benchmarks dataset has no private_test_data_file')
             if not self.benchmark.data_set.private_ground_truth_data_file:
-                raise ValidationError('Cannot create private submission, because the Benchmarks dataset has no private_ground_truth_data_file')
+                raise ValidationError(
+                    'Cannot create private submission, because the Benchmarks dataset has no private_ground_truth_data_file')
         else:
             if not self.benchmark.data_set.public_test_data_file:
-                raise ValidationError('Cannot create public submission, because the Benchmarks dataset has no public_test_data_file')
+                raise ValidationError(
+                    'Cannot create public submission, because the Benchmarks dataset has no public_test_data_file')
             if not self.benchmark.data_set.public_ground_truth_data_file:
-                raise ValidationError('Cannot create public submission, because the Benchmarks dataset has no public_ground_truth_data_file')
+                raise ValidationError(
+                    'Cannot create public submission, because the Benchmarks dataset has no public_ground_truth_data_file')
 
 
 class Algorithm(UUIDModel):
