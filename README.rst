@@ -1,9 +1,6 @@
-## Backend for the EYRA Benchmark platform.
-
 .. image:: https://travis-ci.org/EYRA-Benchmark/comic.svg?branch=master
   :target: https://travis-ci.org/EYRA-Benchmark/comic
     
-
 .. image:: https://readthedocs.org/projects/eyra/badge/?version=latest
   :target: https://eyra.readthedocs.io/en/latest/?badge=latest
   :alt: Documentation Status
@@ -12,18 +9,14 @@
 .. image:: https://sonarcloud.io/api/project_badges/measure?project=EYRA-Benchmark_comic&metric=coverage
   :target: https://sonarcloud.io/component_measures?id=EYRA-Benchmark_comic&metric=coverage
 
-
 .. image:: https://sonarcloud.io/api/project_badges/measure?project=EYRA-Benchmark_comic&metric=alert_status
-  :target: https://sonarcloud.io/component_measures?id=EYRA-Benchmark_comic
-  
+  :target: https://sonarcloud.io/component_measures?id=EYRA-Benchmark_comic  
   
 .. image:: https://sonarcloud.io/api/project_badges/measure?project=EYRA-Benchmark_comic&metric=security_rating
   :target: https://sonarcloud.io/component_measures?id=EYRA-Benchmark_comic
-  
-  
+    
 .. image:: https://sonarcloud.io/api/project_badges/measure?project=EYRA-Benchmark_comic&metric=sqale_rating
   :target: https://sonarcloud.io/component_measures?id=EYRA-Benchmark_comic
-
 
 .. image:: https://pyup.io/repos/github/EYRA-Benchmark/comic/shield.svg
   :target: https://pyup.io/repos/github/EYRA-Benchmark/comic/
@@ -33,11 +26,20 @@
   :target: https://gitpod.io/#https://github.com/eyra-benchmark/comic/
   :alt: Open in GitPod
   
-`Read the docs <https://eyra.readthedocs.io>`_.
 
-Forked from `grand-challenge.org <https://github.com/comic/grand-challenge.org/>`_.
+`Go to documentation <https://eyra.readthedocs.io>`_
+----------------------
 
-## Setup a dev environment:
+Running from Docker compose
+---------------------------
+You only need in this case to have installed docker-compose in your machine. 
+  1. After cloning the repository, create a folder a "postgres_data" on the main directory.
+  2. Then run up the all the backend services at once with:
+     ``docker-compose --env-file=.env.localdocker up -d --force-recreate``
+
+
+Setup a dev environment:
+************************
 
 - Use miniconda3 https://docs.conda.io/en/latest/miniconda.html
 - Create a virtual environment: ``conda create -n comic python=3``
@@ -51,6 +53,6 @@ Forked from `grand-challenge.org <https://github.com/comic/grand-challenge.org/>
 
 - Install VSCode Python extension
 - Set the correct python path in ``.vscode/settings.json`` (``"python.pythonPath"``).
-- Launch ``Python: Django``, server should start running at ``http://localhost:8000``.
+- Launch ``Python: Django``, the server should start running at ``http://localhost:8000``.
 
 
