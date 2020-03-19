@@ -29,6 +29,9 @@
   :target: https://pyup.io/repos/github/EYRA-Benchmark/comic/
   :alt: Updates
   
+.. image:: https://gitpod.io/button/open-in-gitpod.svg
+  :target: https://gitpod.io/#https://github.com/eyra-benchmark/comic/
+  :alt: Open in GitPod
   
 `Read the docs <https://eyra.readthedocs.io>`_.
 
