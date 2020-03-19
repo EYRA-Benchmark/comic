@@ -10,6 +10,7 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 
 # from comic.eyra.validators import IdExistsInDockerRegistryValidator
+from comic.eyra.validators import isValidDockerhubImage
 
 logger = logging.getLogger(__name__)
 
@@ -199,7 +200,7 @@ class Submission(UUIDModel):
     image = models.CharField(
         max_length=64,
         # unique=True,
-        # validators=[IdExistsInDockerRegistryValidator],
+        validators=[isValidDockerhubImage],
         help_text="Docker image (e.g. eyra/frb-eval:3)",
     )
     command = models.CharField(

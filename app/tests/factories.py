@@ -78,7 +78,7 @@ class SubmissionFactory(factory.DjangoModelFactory):
 
     benchmark = factory.SubFactory(BenchmarkFactory)
     algorithm = factory.SubFactory(AlgorithmFactory)
-    image = 'test_image'
+    image = 'alpine:latest'
 
 #
 # class JobFactory(factory.DjangoModelFactory):
