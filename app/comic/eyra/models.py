@@ -102,6 +102,7 @@ class Benchmark(UUIDModel):
     submission_instruction = models.TextField(
         default="",
         help_text="submission instruction for user in markdown",
+        blank=True,
     )
     banner_image = models.ImageField(
         blank=True,
