@@ -55,6 +55,7 @@ class BenchmarkFactory(factory.DjangoModelFactory):
     data_description = 'Test bm data description'
     truth_description = 'Test bm truth description'
     metrics_description = 'Test bm metrics description'
+    evaluation_image = 'alpine:latest'
     data_set = factory.SubFactory(DataSetFactory)
 
 

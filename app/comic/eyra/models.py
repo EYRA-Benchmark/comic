@@ -366,6 +366,8 @@ class Job(UUIDModel):
         max_length=64,
         # unique=True,
         help_text="Docker image (e.g. eyra/frb-eval:3)",
+        blank=False,
+        null=False
     )
     output = models.ForeignKey(
         'DataFile',
