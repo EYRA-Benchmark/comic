@@ -108,17 +108,17 @@ echo "Done"
         submission = self.job.submission
         main_container = client.V1Container(
             name="main",
-            image=submission.image,
+            image=self.job.image,
             command=['sh'] if submission.command else None,
             args=['-c', submission.command] if submission.command else None,
-            resources=client.V1ResourceRequirements(
-                requests = {
-                    "nvidia.com/gpu": "1"
-                },
-                limits = {
-                    "nvidia.com/gpu": "1"
-                }
-            ),
+#            resources=client.V1ResourceRequirements(
+#                requests = {
+#                    "nvidia.com/gpu": "1"
+###                },
+#                limits = {
+#                    "nvidia.com/gpu": "1"
+#                }
+#            ),
             volume_mounts=[client.V1VolumeMount(mount_path='/data', name='io')],
         )
 

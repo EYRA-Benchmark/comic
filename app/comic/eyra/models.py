@@ -362,6 +362,11 @@ class Job(UUIDModel):
         null=True,
         blank=True,
     )
+    image = models.CharField(
+        max_length=64,
+        # unique=True,
+        help_text="Docker image (e.g. eyra/frb-eval:3)",
+    )
     output = models.ForeignKey(
         'DataFile',
         on_delete=models.CASCADE,

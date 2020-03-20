@@ -72,6 +72,7 @@ def create_algorithm_job_for_submission(submission: Submission):
     submission.algorithm_job = Job.objects.create(
         output=job_output,
         submission=submission,
+        image=submission.image,
     )
     submission.save()
 
@@ -99,6 +100,7 @@ def create_evaluation_job_for_submission(submission: Submission):
     submission.evaluation_job = Job.objects.create(
         output=job_output,
         submission=submission,
+        image=submission.benchmark.evaluation_image
     )
     submission.save()
 
