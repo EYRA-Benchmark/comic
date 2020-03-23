@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User, Group
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django_filters import rest_framework as filters
 from rest_framework import mixins, exceptions
@@ -18,6 +19,7 @@ from comic.eyra.serializers import AlgorithmSerializer, JobSerializer, Benchmark
 class AlgorithmFilter(filters.FilterSet):
     has_admin = filters.NumberFilter(method='has_admin_filter', label="Has admin")
     submissions_benchmark = filters.UUIDFilter(method='benchmark_submissions_filter', label="Has submissions for benchmark")
+    submissions_benchmark_or_empty = filters.UUIDFilter(method='benchmark_submissions_or_empty_filter', label="Has submissions for benchmark or no submissions")
 
     class Meta:
         model = Algorithm
@@ -29,6 +31,10 @@ class AlgorithmFilter(filters.FilterSet):
     def benchmark_submissions_filter(self, queryset, name, value):
         submission_qs = Submission.objects.filter(benchmark__id=value)
         return queryset.filter(submission__in=submission_qs)
+
+    def benchmark_submissions_or_empty_filter(self, queryset, name, value):
+        submission_qs = Submission.objects.filter(benchmark__id=value)
+        return queryset.filter(Q(submission__in=submission_qs) | Q(submission__isnull=True))
 
 
 class AlgorithmViewSet(ModelViewSet):
