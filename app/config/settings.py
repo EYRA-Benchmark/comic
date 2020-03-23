@@ -372,7 +372,7 @@ CELERY_TASK_ROUTES = {
     "comic.eyra.tasks.run_submission": "submission"
 }
 
-ENABLE_DEBUG_TOOLBAR = False
+ENABLE_DEBUG_TOOLBAR = True
 
 if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend"
