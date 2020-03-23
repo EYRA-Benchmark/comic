@@ -27,7 +27,8 @@ class AlgorithmFilter(filters.FilterSet):
         return queryset.filter(admin_group__user__id__contains=value)
 
     def benchmark_filter(self, queryset, name, value):
-        return queryset.filter(submission__benchmark__id=value)
+        submission_qs = Submission.objects.filter(benchmark__id=value)
+        return queryset.filter(submission__in=submission_qs)
 
 
 class AlgorithmViewSet(ModelViewSet):
