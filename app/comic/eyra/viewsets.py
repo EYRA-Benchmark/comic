@@ -33,8 +33,8 @@ class AlgorithmFilter(filters.FilterSet):
         return queryset.filter(submission__in=submission_qs)
 
     def benchmark_submissions_or_empty_filter(self, queryset, name, value):
-        submission_qs = Submission.objects.filter(benchmark__id=value)
-        return queryset.filter(Q(submission__in=submission_qs) | Q(submission__isnull=True))
+        submissions_for_benchmark_qs = Submission.objects.filter(benchmark__id=value)
+        return queryset.filter(submission__isnull=True).union(queryset.filter(submission__in=submissions_for_benchmark_qs))
 
 
 class AlgorithmViewSet(ModelViewSet):
