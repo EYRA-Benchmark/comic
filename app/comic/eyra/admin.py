@@ -6,7 +6,7 @@ from django.contrib.auth.admin import UserAdmin as OriginalUserAdmin
 from comic.eyra.models import JobInput, Algorithm, Job, Benchmark, Submission, DataFile, DataSet
 
 
-class AlgorithmAdmin(admin.ModelAdmin):
+class AlgorithmAdmin(GuardedModelAdmin):
     list_display = ('name', 'creator', 'created',)
 
 
