@@ -5,10 +5,14 @@ from django.contrib.auth.admin import UserAdmin as OriginalUserAdmin
 
 from comic.eyra.models import JobInput, Algorithm, Job, Benchmark, Submission, DataFile, DataSet
 
+class SubmissionsInline(admin.TabularInline):
+    model = Submission
 
 class AlgorithmAdmin(GuardedModelAdmin):
-    list_display = ('name', 'creator', 'created',)
-
+    def submission_count(self, obj):
+        return obj.submissions.count()
+    list_display = ('name', 'creator', 'created', 'submission_count',)
+    inlines = [SubmissionsInline]
 
 admin.site.register(Algorithm, AlgorithmAdmin)
 
@@ -26,8 +30,11 @@ admin.site.register(Job, JobAdmin)
 
 
 class BenchmarkAdmin(GuardedModelAdmin):
-    list_display = ('name', 'creator', 'created')
+    def submission_count(self, obj):
+        return obj.submissions.count()
 
+    list_display = ('name', 'creator', 'created', 'submission_count')
+    inlines = [SubmissionsInline]
 
 admin.site.register(Benchmark, BenchmarkAdmin)
 

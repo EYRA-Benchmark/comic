@@ -178,7 +178,7 @@ class Submission(UUIDModel):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=255, unique=True, null=True, blank=True)
-    benchmark = models.ForeignKey(Benchmark, on_delete=models.CASCADE)
+    benchmark = models.ForeignKey(Benchmark, on_delete=models.CASCADE, related_name='submissions')
     algorithm_job = models.ForeignKey(
         'Job', on_delete=models.CASCADE, null=True, blank=True, related_name='+')
     evaluation_job = models.ForeignKey(
@@ -214,7 +214,7 @@ class Submission(UUIDModel):
         on_delete=models.CASCADE,
         blank=False,
         null=False,
-        related_name='submission',
+        related_name='submissions',
         help_text='Implemented algorithm',
     )
     version = models.CharField(
