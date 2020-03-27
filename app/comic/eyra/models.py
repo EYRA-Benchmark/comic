@@ -139,6 +139,12 @@ class Benchmark(UUIDModel):
         related_name="benchmark",
         help_text="Admin group for this benchmark"
     )
+    should_evaluate = models.BooleanField(
+        default=True,
+        help_text=(
+            "Should evaluate in Eyra"
+        )
+    )
 
     def save(self, *args, **kwargs):
         from comic.eyra.utils import set_benchmark_admin_group, set_benchmark_default_permissions

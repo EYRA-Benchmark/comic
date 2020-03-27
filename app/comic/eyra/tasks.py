@@ -124,9 +124,21 @@ def create_evaluation_job_for_submission(submission: Submission):
 
 @shared_task
 def run_submission(submission_pk):
-    submission = Submission.objects.get(pk=submission_pk)
+    submission: Submission = Submission.objects.get(pk=submission_pk)
     create_algorithm_job_for_submission(submission)
     create_evaluation_job_for_submission(submission)
+
+    if not submission.benchmark.should_evaluate:
+        submission.algorithm_job.status = Job.SUCCESS
+        submission.algorithm_job.log = 'Ran externally.'
+        submission.algorithm_job.save()
+
+        submission.evaluation_job.status = Job.SUCCESS
+        submission.evaluation_job.log = 'Ran externally.'
+        submission.evaluation_job.save()
+
+        submission.metrics = "Should be set externally."
+        return
 
     try:
         run_job(submission.algorithm_job.pk)
