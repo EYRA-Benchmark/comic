@@ -3,7 +3,7 @@ asgiref==3.2.10
 billiard==3.6.3.0
 boto3==1.15.11
 botocore==1.18.11
-cachetools==4.0.0
+cachetools==4.1.1
 celery==4.4.2
 certifi==2019.11.28
 chardet==3.0.4
