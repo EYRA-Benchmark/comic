@@ -2,7 +2,7 @@ codecov==2.1.12
 django-debug-toolbar==3.3.0
 factory-boy==3.2.1
 ipython==8.3.0
-pytest==5.4.1
+pytest==7.1.2
 pytest-cov==2.8.1
 pytest-django==3.8.0
 recommonmark==0.6.0
