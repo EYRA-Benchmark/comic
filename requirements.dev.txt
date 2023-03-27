@@ -4,7 +4,7 @@ factory-boy==3.2.1
 ipython==8.11.0
 pytest==7.2.2
 pytest-cov==4.0.0
-pytest-django==3.8.0
+pytest-django==4.5.2
 recommonmark==0.6.0
 sphinx==2.4.4
 sphinx_rtd_theme==0.4.3
