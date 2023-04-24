@@ -18,7 +18,7 @@ django-environ==0.10.0
 django-extensions==3.2.1
 django-filter==23.1
 django-guardian==2.4.0
-django-storages==1.9.1
+django-storages==1.13.2
 django-timezone-field==4.0
 djangorestframework==3.11.0
 docutils==0.16
