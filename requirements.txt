@@ -19,7 +19,7 @@ django-extensions==3.2.3
 django-filter==23.3
 django-guardian==2.4.0
 django-storages==1.14
-django-timezone-field==4.0
+django-timezone-field==6.0.1
 djangorestframework==3.11.0
 docutils==0.16
 google-auth==1.11.3
