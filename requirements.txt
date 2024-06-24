@@ -26,7 +26,7 @@ google-auth==2.30.0
 gunicorn==22.0.0
 idna==3.7
 jmespath==1.0.1
-kombu==4.6.8
+kombu==5.3.7
 kubernetes==11.0.0
 oauthlib==3.1.0
 Pillow==7.0.0
