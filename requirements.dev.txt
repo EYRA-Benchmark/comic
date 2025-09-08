@@ -12,4 +12,4 @@ sphinx-autobuild==2025.8.25
 mypy==1.17.1
 django-stubs==5.2.2
 whitenoise==6.9.0
-werkzeug==1.0.0
+werkzeug==3.1.3
