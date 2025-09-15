@@ -51,4 +51,4 @@ social-auth-core==4.7.0
 sqlparse==0.5.3
 urllib3==2.5.0
 vine==5.1.0
-websocket-client==0.57.0
+websocket-client==1.8.0
