@@ -9,7 +9,7 @@ certifi==2025.10.5
 chardet==5.2.0
 defusedxml==0.7.1
 Django==5.2.8
-django-appconf==1.0.3
+django-appconf==1.2.0
 django-celery-beat==2.0.0
 django-celery-email==3.0.0
 django-celery-results==1.2.1
