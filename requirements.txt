@@ -24,7 +24,7 @@ djangorestframework==3.16.1
 docutils==0.22.4
 google-auth==2.49.0
 gunicorn==25.1.0
-idna==2.9
+idna==3.11
 jmespath==0.9.5
 kombu==4.6.8
 kubernetes==11.0.0
