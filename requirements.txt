@@ -22,7 +22,7 @@ django-storages==1.14.6
 django-timezone-field==7.2.2
 djangorestframework==3.17.1
 docutils==0.23
-google-auth==1.11.3
+google-auth==2.56.2
 gunicorn==20.0.4
 idna==2.9
 jmespath==0.9.5
