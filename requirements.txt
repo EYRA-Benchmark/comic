@@ -25,7 +25,7 @@ docutils==0.23
 google-auth==2.56.3
 gunicorn==26.2.0
 idna==3.19
-jmespath==0.9.5
+jmespath==1.1.0
 kombu==4.6.8
 kubernetes==11.0.0
 oauthlib==3.1.0
