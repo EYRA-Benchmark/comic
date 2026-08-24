@@ -20,7 +20,7 @@ django-filter==26.1
 django-guardian==3.3.3
 django-storages==1.14.6
 django-timezone-field==7.2.2
-djangorestframework==3.11.0
+djangorestframework==3.18.0
 docutils==0.16
 google-auth==1.11.3
 gunicorn==20.0.4
