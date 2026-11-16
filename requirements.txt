@@ -23,7 +23,7 @@ django-timezone-field==7.2.2
 djangorestframework==3.18.3
 docutils==0.23
 google-auth==2.62.2
-gunicorn==20.0.4
+gunicorn==27.0.1
 idna==2.9
 jmespath==0.9.5
 kombu==4.6.8
